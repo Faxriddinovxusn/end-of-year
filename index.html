@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>88-Day Year-end Journal — A4 Printable</title>
+  <style>
+    :root{
+      --bg: #0f1720;
+      --card: #0b1220;
+      --muted: #9aa4b2;
+      --accent: #00c48c;
+      --danger: #ff5151;
+      --paper-w: 210mm;
+      --paper-h: 297mm;
+      --g-gap: 6px;
+      --cols: 11;
+      --rows: 8; /* 11 * 8 = 88 */
+      --cell-font-size: 11px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,'Helvetica Neue',Arial}
+    body{background:linear-gradient(180deg,#071117 0%,var(--bg) 100%);color:#e6eef3;display:flex;flex-direction:column;align-items:center;padding:18px}
+
+    header{width:100%;max-width:1200px;display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px}
+    .title{display:flex;align-items:center;gap:12px}
+    .logo{width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#00a78f);display:flex;align-items:center;justify-content:center;font-weight:700;color:#031217}
+    h1{font-size:18px;margin:0}
+    .controls{display:flex;gap:8px;align-items:center}
+    button,select,input[type=text]{background:#08131a;border:1px solid #15232b;color:var(--muted);padding:8px 10px;border-radius:8px;font-size:13px}
+    button:hover{cursor:pointer;filter:brightness(1.05)}
+    .btn-strong{background:var(--accent);color:#022; border:none}
+    .small{padding:6px 8px;font-size:13px}
+
+    .panel{width:100%;max-width:1200px;background:linear-gradient(180deg,#071219,#07121b);border:1px solid #0f2932;border-radius:12px;padding:12px;display:flex;gap:12px}
+
+    .left{flex:1;min-width:480px}
+    .right{width:320px}
+
+    /* A4 preview area */
+    .paper-wrap{background:#f6f7f9;padding:10px;border-radius:6px;display:flex;justify-content:center}
+    .paper{width:var(--paper-w);height:var(--paper-h);background:white;border:1px solid #ddd;padding:12mm;box-shadow:0 6px 30px rgba(0,0,0,0.45);overflow:auto}
+
+    .grid{display:grid;grid-template-columns:repeat(var(--cols),1fr);grid-auto-rows:calc((100% - (var(--rows) - 1) * var(--g-gap)) / var(--rows));gap:var(--g-gap);height:100%}
+    .cell{border:1px solid #e6eef3aa;border-radius:4px;padding:6px;display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(180deg,#fff,#fbfdff)}
+    .cell .meta{font-size:9px;color:#2d2d2d;margin-bottom:4px;display:flex;justify-content:space-between}
+    .date{font-weight:700}
+    .day{color:#6a7178}
+    .editor{flex:1;outline:none;border-radius:4px;padding:4px;font-size:var(--cell-font-size);line-height:1.1;color:#04111a;background:transparent}
+    .cell.empty{background:#fff}
+    .cell.filled{box-shadow:inset 0 0 0 2px rgba(0,196,140,0.07)}
+    .cell.done{border:2px solid rgba(0,196,140,0.35)}
+    .cell.nothing{border:2px solid rgba(255,81,81,0.35)}
+
+    /* hover preview */
+    .tooltip{position:absolute;background:#01161a;color:#bfe9dd;padding:8px;border-radius:6px;max-width:260px;z-index:50;box-shadow:0 8px 30px rgba(2,10,12,0.6);display:none}
+
+    /* Stats */
+    .stats{display:flex;flex-direction:column;gap:8px}
+    .progress{height:14px;background:#e9eef4;border-radius:8px;overflow:hidden}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#00a78f);width:0%}
+    .stat-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+
+    .mini-months{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .month{background:#051018;padding:8px;border-radius:8px;border:1px solid #07232a}
+    .month h4{margin:0;font-size:13px}
+    .month .legend{display:flex;gap:6px;margin-top:8px}
+    .legend .box{width:10px;height:10px;border-radius:2px}
+    .legend .done{background:var(--accent)}
+    .legend .nothing{background:var(--danger)}
+    .legend .empty{background:#e6eef3}
+
+    /* Right column small controls */
+    .right .box{background:linear-gradient(180deg,#06161b,#041018);border-radius:8px;padding:10px;border:1px solid #07313a}
+    .right h3{margin:0 0 6px 0;font-size:13px}
+    .search-highlight{outline:2px solid #ffe082}
+
+    /* Responsive */
+    @media (max-width:1100px){:root{--cols:8;--rows:11} .paper{transform:scale(0.8);transform-origin:top left}}
+    @media (max-width:700px){.panel{flex-direction:column}.right{width:100%}}
+
+    /* Print rules for A4 */
+    @page { size: A4; margin: 0 }
+    @media print{
+      body{background:white;color:black}
+      header,.controls,.right{display:none}
+      .paper{box-shadow:none;border:none;padding:8mm;margin:0}
+      .cell{font-size:10px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title"><div class="logo">YR</div><div><h1>88-Day Year-end Journal — A4 printable</h1><div style="font-size:12px;color:var(--muted)">88 cells — each cell is one day until year end</div></div></div>
+    <div class="controls">
+      <input id="search" type="text" placeholder="Search text or date (YYYY-MM-DD)..." style="width:220px" />
+      <button id="toggleTheme" title="Toggle theme">Dark/Light</button>
+      <button id="exportCsv" class="small">Export CSV</button>
+      <button id="importCsv" class="small">Import CSV</button>
+      <input id="fileImport" type="file" accept="text/csv" style="display:none" />
+      <button id="exportPng" class="small">Export PNG</button>
+      <button id="printBtn" class="small btn-strong">Print</button>
+    </div>
+  </header>
+
+  <div class="panel">
+    <div class="left">
+      <div class="paper-wrap">
+        <div class="paper" id="paper">
+          <div class="grid" id="grid"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:10px;align-items:center;justify-content:flex-start">
+        <div style="font-size:13px;color:var(--muted)">Legend:</div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <div style="width:14px;height:14px;background:var(--accent);border-radius:3px"></div><div style="color:var(--muted)">Filled</div>
+          <div style="width:14px;height:14px;background:var(--danger);border-radius:3px;margin-left:8px"></div><div style="color:var(--muted)">Nothing</div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="right">
+      <div class="box stats">
+        <h3>Progress</h3>
+        <div class="progress"><i id="progressBar"></i></div>
+        <div class="stat-row"><div id="filledCount">0 / 88 filled</div><div id="remaining">88 left</div></div>
+        <div class="stat-row" style="margin-top:6px"><div>Longest streak</div><div id="streak">0</div></div>
+        <div class="stat-row"><div>Avg words / day</div><div id="avgWords">0</div></div>
+      </div>
+
+      <div class="box" style="margin-top:8px">
+        <h3>Mini months</h3>
+        <div class="mini-months" id="miniMonths"></div>
+      </div>
+
+      <div class="box" style="margin-top:8px">
+        <h3>Daily quote</h3>
+        <div id="quote" style="font-size:13px;color:var(--muted)"></div>
+      </div>
+
+      <div class="box" style="margin-top:8px">
+        <h3>Actions</h3>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+          <button id="clearAll">Clear All</button>
+          <button id="undoBtn">Undo</button>
+          <button id="redoBtn">Redo</button>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <div id="tooltip" class="tooltip" aria-hidden="true"></div>
+
+  <script>
+    (function(){
+      // Config
+      const TOTAL = 88;
+      const cols = 11; // grid columns
+
+      // Start from tomorrow (so total = 88 days until year end as user calculated)
+      const today = new Date();
+      const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate()+1);
+
+      // Storage key
+      const STORAGE_KEY = 'yearend-88-journal-2025';
+
+      // DOM refs
+      const grid = document.getElementById('grid');
+      const filledCountEl = document.getElementById('filledCount');
+      const remainingEl = document.getElementById('remaining');
+      const progressBar = document.getElementById('progressBar');
+      const streakEl = document.getElementById('streak');
+      const avgWordsEl = document.getElementById('avgWords');
+      const miniMonthsEl = document.getElementById('miniMonths');
+      const quoteEl = document.getElementById('quote');
+      const tooltip = document.getElementById('tooltip');
+      const searchInput = document.getElementById('search');
+      const fileImport = document.getElementById('fileImport');
+
+      // State
+      let data = {}; // { 'YYYY-MM-DD': text }
+      let history = []; // undo stack
+      let future = []; // redo stack
+      let debounceTimers = {};
+
+      // Quotes
+      const QUOTES = [
+        "Discipline beats motivation.",
+        "Small daily wins compound.",
+        "Do the work; results will follow.",
+        "Make one thing better every day.",
+        "Action > intention."
+      ];
+
+      // Utilities
+      function fmt(d){
+        const y = d.getFullYear();
+        const m = String(d.getMonth()+1).padStart(2,'0');
+        const day = String(d.getDate()).padStart(2,'0');
+        return `${y}-${m}-${day}`;
+      }
+      function shortDate(d){
+        return d.toLocaleDateString(undefined,{month:'short',day:'2-digit'});
+      }
+      function dayName(d){return d.toLocaleDateString(undefined,{weekday:'short'})}
+      function load(){
+        try{const raw = localStorage.getItem(STORAGE_KEY); if(raw) data = JSON.parse(raw);}catch(e){console.error(e)}
+      }
+      function save(){
+        try{localStorage.setItem(STORAGE_KEY, JSON.stringify(data));}catch(e){console.error('Save error',e)}
+      }
+      function pushHistory(key, prev, next){ history.push({key,prev,next}); if(history.length>200) history.shift(); future = []; updateUndoRedo(); }
+      function updateUndoRedo(){ document.getElementById('undoBtn').disabled = history.length===0; document.getElementById('redoBtn').disabled = future.length===0; }
+
+      // Build grid
+      const dates = [];
+      for(let i=0;i<TOTAL;i++){
+        const d = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()+i);
+        dates.push(d);
+      }
+
+      function createCell(d){
+        const key = fmt(d);
+        const cell = document.createElement('div'); cell.className='cell'; cell.dataset.date = key;
+
+        const meta = document.createElement('div'); meta.className='meta';
+        const left = document.createElement('div'); left.className='date'; left.textContent = shortDate(d);
+        const right = document.createElement('div'); right.className='day'; right.textContent = dayName(d);
+        meta.appendChild(left); meta.appendChild(right);
+
+        const editor = document.createElement('div'); editor.className='editor'; editor.contentEditable = true; editor.spellcheck = false; editor.setAttribute('aria-label', 'entry for '+key);
+        editor.addEventListener('input', onInput);
+        editor.addEventListener('focus', ()=>{ cell.classList.add('focused'); });
+        editor.addEventListener('blur', ()=>{ cell.classList.remove('focused'); });
+        // hover preview
+        cell.addEventListener('mouseenter', ()=>{ showTooltip(cell); });
+        cell.addEventListener('mouseleave', hideTooltip);
+
+        cell.appendChild(meta); cell.appendChild(editor);
+        return {cell, editor, key};
+      }
+
+      // Render
+      function renderAll(){
+        grid.innerHTML='';
+        const fragment = document.createDocumentFragment();
+        for(const d of dates){
+          const {cell, editor, key} = createCell(d);
+          // load content
+          const val = data[key]||'';
+          editor.innerText = val;
+
+          // classes
+          updateCellStyle(cell,val);
+
+          // attach change handler with debounce
+          editor.addEventListener('input', debounceInput(editor, key));
+
+          // double-click to clear quickly
+          editor.addEventListener('dblclick', (e)=>{const prev=data[key]||''; pushHistory(key, prev, ''); data[key]=''; editor.innerText=''; updateCellStyle(cell,''); save(); computeStats();});
+
+          fragment.appendChild(cell);
+        }
+        grid.appendChild(fragment);
+        computeStats(); renderMiniMonths(); updateUndoRedo();
+      }
+
+      function debounceInput(editor,key){
+        return function(){
+          if(debounceTimers[key]) clearTimeout(debounceTimers[key]);
+          const prev = data[key]||'';
+          const cur = editor.innerText.replace(/\u00A0/g,' '); // remove nbsp
+          debounceTimers[key] = setTimeout(()=>{
+            if(prev !== cur){ pushHistory(key, prev, cur); data[key]=cur; save(); future=[]; updateUndoRedo(); }
+            updateCellStyle(editor.parentElement,cur);
+            computeStats();
+          }, 1000 * 3); // autosave after 3s
+        }
+      }
+
+      function onInput(e){ /* reserved in createCell */ }
+
+      function updateCellStyle(cell, val){
+        const v = (val||'').trim();
+        cell.classList.remove('done','nothing','filled','empty');
+        if(v === ''){ cell.classList.add('empty'); }
+        else {
+          cell.classList.add('filled');
+          // 'nothing' special
+          if(v.toLowerCase() === 'nothing') { cell.classList.add('nothing'); }
+          else { cell.classList.add('done'); }
+        }
+      }
+
+      function computeStats(){
+        const keys = dates.map(d=>fmt(d));
+        let filled = 0, totalWords = 0, entriesWithWords = 0;
+        const filledMap = {};
+        for(const k of keys){ const v = (data[k]||'').trim(); if(v!==''){
+            filled++; filledMap[k]=true;
+            const ws = v.split(/\s+/).filter(Boolean).length; if(ws>0){ totalWords += ws; entriesWithWords++; }
+          }
+        }
+        const remaining = TOTAL - filled;
+        const percent = Math.round((filled/TOTAL)*100);
+        filledCountEl.textContent = `${filled} / ${TOTAL} filled`;
+        remainingEl.textContent = `${remaining} left`;
+        progressBar.style.width = percent + '%';
+        avgWordsEl.textContent = entriesWithWords?Math.round(totalWords/entriesWithWords):0;
+
+        // streak: longest consecutive filled sequence
+        let longest = 0, cur = 0;
+        for(const k of keys){ if(filledMap[k]){ cur++; } else { longest = Math.max(longest, cur); cur=0 } }
+        longest = Math.max(longest, cur);
+        streakEl.textContent = longest;
+      }
+
+      // tooltip
+      function showTooltip(cell){
+        const key = cell.dataset.date; const t = data[key]||''; if(!t) return;
+        tooltip.style.display='block'; tooltip.innerText = `${key}\n\n` + t;
+        const rect = cell.getBoundingClientRect(); const ttRect = tooltip.getBoundingClientRect();
+        let left = rect.right + 8; let top = rect.top;
+        if(left + ttRect.width > window.innerWidth) left = rect.left - ttRect.width - 8;
+        if(left < 0) left = 8;
+        if(top + ttRect.height > window.innerHeight) top = window.innerHeight - ttRect.height - 8;
+        tooltip.style.left = left + 'px'; tooltip.style.top = top + 'px';
+      }
+      function hideTooltip(){ tooltip.style.display='none' }
+
+      // mini months (generate small legend blocks)
+      function renderMiniMonths(){
+        // group dates by month-year
+        const groups = {};
+        for(const d of dates){ const k = d.getFullYear()+'-'+(d.getMonth()+1); if(!groups[k]) groups[k]=[]; groups[k].push(d); }
+        miniMonthsEl.innerHTML='';
+        for(const key in groups){ const arr = groups[key]; const month = arr[0].toLocaleDateString(undefined,{month:'long',year:'numeric'});
+          const container = document.createElement('div'); container.className='month';
+          const h = document.createElement('h4'); h.textContent = month; container.appendChild(h);
+          const wrap = document.createElement('div'); wrap.style.display='flex'; wrap.style.flexWrap='wrap'; wrap.style.gap='6px'; wrap.style.marginTop='8px';
+          for(const d of arr){ const k = fmt(d); const s = document.createElement('div'); s.style.width='12px'; s.style.height='12px'; s.style.borderRadius='2px'; s.title = k; const v=(data[k]||'').trim(); if(v==='') s.style.background='#e6eef3'; else if(v.toLowerCase()==='nothing') s.style.background='var(--danger)'; else s.style.background='var(--accent)'; wrap.appendChild(s); }
+          container.appendChild(wrap); miniMonthsEl.appendChild(container);
+        }
+      }
+
+      // search
+      searchInput.addEventListener('input', ()=>{
+        const q = searchInput.value.trim().toLowerCase(); const cells = grid.querySelectorAll('.cell');
+        cells.forEach(c=>c.classList.remove('search-highlight'));
+        if(!q) return;
+        cells.forEach(c=>{ const k = c.dataset.date; const v=(data[k]||'').toLowerCase(); if(k.includes(q) || v.includes(q)) c.classList.add('search-highlight'); });
+      });
+
+      // export CSV
+      document.getElementById('exportCsv').addEventListener('click', ()=>{
+        const rows = ['date,text'];
+        for(const d of dates){ const k = fmt(d); const v = (data[k]||'').replace(/\r?\n/g,' \n ').replace(/"/g,'""'); rows.push(`${k},"${v}"`); }
+        const blob = new Blob([rows.join('\n')],{type:'text/csv'});
+        const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download='yearend-88.csv'; a.click(); URL.revokeObjectURL(url);
+      });
+
+      // import CSV
+      document.getElementById('importCsv').addEventListener('click', ()=>fileImport.click());
+      fileImport.addEventListener('change', (e)=>{
+        const f = fileImport.files[0]; if(!f) return; const reader = new FileReader(); reader.onload = ()=>{
+          const text = reader.result; parseCsv(text); fileImport.value='';
+        }; reader.readAsText(f);
+      });
+      function parseCsv(text){
+        const lines = text.split(/\r?\n/).filter(Boolean);
+        for(let i=1;i<lines.length;i++){ // skip header
+          const row = lines[i]; const m = row.match(/^([^,]+),"([\s\S]*)"$/); if(m){ const date=m[1].trim(); const txt = m[2].replace(/""/g,'"'); if(dates.some(d=>fmt(d)===date)){ const prev = data[date]||''; pushHistory(date,prev,txt); data[date]=txt; } }
+        }
+        save(); renderAll();
+      }
+
+      // print
+      document.getElementById('printBtn').addEventListener('click', ()=>{ window.print(); });
+
+      // export PNG (uses html2canvas if available)
+      document.getElementById('exportPng').addEventListener('click', async ()=>{
+        const paper = document.getElementById('paper');
+        // try to load html2canvas dynamically
+        if(typeof html2canvas === 'undefined'){
+          try{ await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'); }catch(e){ alert('Unable to load export library; use Print instead.'); return; }
+        }
+        html2canvas(paper, {scale:2, useCORS:true}).then(canvas=>{
+          const url = canvas.toDataURL('image/png'); const a = document.createElement('a'); a.href=url; a.download='yearend-88.png'; a.click();
+        }).catch(()=>alert('Export failed.'));
+      });
+
+      function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); }
+
+      // Undo / Redo
+      document.getElementById('undoBtn').addEventListener('click', ()=>{
+        if(!history.length) return; const last = history.pop(); future.push(last); const {key,prev,next} = last; if(prev===undefined) delete data[key]; else data[key]=prev; save(); renderAll(); updateUndoRedo();
+      });
+      document.getElementById('redoBtn').addEventListener('click', ()=>{
+        if(!future.length) return; const item = future.pop(); history.push(item); const {key,prev,next} = item; if(next===undefined) delete data[key]; else data[key]=next; save(); renderAll(); updateUndoRedo();
+      });
+
+      // Clear all
+      document.getElementById('clearAll').addEventListener('click', ()=>{
+        if(!confirm('Clear all entries? This cannot be undone.')) return; // safety
+        for(const d of dates){ const k=fmt(d); const prev=data[k]||''; if(prev!=='') pushHistory(k,prev,''); data[k]=''; }
+        save(); renderAll();
+      });
+
+      // Undo record when double clicking or clearing already handled in createCell; also capture manual text changes via debounce pushHistory already.
+
+      // Initialize
+      load(); renderAll();
+
+      // daily quote — choose by today's date index
+      const qIndex = (today.getDate() + today.getMonth() + today.getFullYear()) % QUOTES.length; quoteEl.textContent = QUOTES[qIndex];
+
+      // Service worker registration (basic offline support)
+      if('serviceWorker' in navigator){
+        try{
+          const swCode = `self.addEventListener('install',e=>{self.skipWaiting();});self.addEventListener('activate',e=>{e.waitUntil(self.clients.claim());});self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)));});`;
+          const blob = new Blob([swCode],{type:'text/javascript'});
+          const swUrl = URL.createObjectURL(blob);
+          navigator.serviceWorker.register(swUrl).catch(()=>{/*sw register failure ok*/});
+        }catch(e){console.warn('sw failed',e)}
+      }
+
+      // small UX: click a cell to focus
+      grid.addEventListener('click', (e)=>{ const cell = e.target.closest('.cell'); if(!cell) return; const ed = cell.querySelector('.editor'); ed.focus(); placeCaretAtEnd(ed); });
+
+      function placeCaretAtEnd(el){ el.focus(); if(typeof window.getSelection != 'undefined' && typeof document.createRange != 'undefined'){ const range = document.createRange(); range.selectNodeContents(el); range.collapse(false); const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); } }
+
+      // helper for formatting/placing
+
+    })();
+  </script>
+</body>
+</html>
